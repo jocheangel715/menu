@@ -10,8 +10,6 @@
   overflow: hidden;
   overflow-y: auto; /* Enable vertical scrolling */
   font-family: Arial, sans-serif; /* Add a fallback font */
-  display: flex; /* Ensure content is displayed properly */
-  flex-direction: column;
 }
 
 .app-background::-webkit-scrollbar {
