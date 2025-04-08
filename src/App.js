@@ -18,8 +18,9 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [filteredProducts, setFilteredProducts] = useState([]); // New state for filtered products
-  const [selectedCategory, setSelectedCategory] = useState(null); // New state for selected category
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [backgroundLoaded, setBackgroundLoaded] = useState(false); // New state for background image loading
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -30,9 +31,8 @@ function App() {
           ...doc.data(),
         }));
         setProducts(productsData);
-        setFilteredProducts(productsData); // Initialize filtered products with all products
+        setFilteredProducts(productsData);
 
-        // Extract unique categories
         const uniqueCategories = [
           ...new Set(productsData.map(product => product.category)),
         ];
@@ -40,12 +40,17 @@ function App() {
       } catch (error) {
         console.error('Error fetching products:', error);
       } finally {
-        setLoading(false);
+        if (backgroundLoaded) setLoading(false); // Only stop loading if background is also loaded
       }
     };
 
     fetchProducts();
-  }, []);
+  }, [backgroundLoaded]); // Add backgroundLoaded as a dependency
+
+  const handleBackgroundLoad = () => {
+    setBackgroundLoaded(true);
+    if (products.length > 0) setLoading(false); // Only stop loading if products are also loaded
+  };
 
   const handleCategoryClick = (category) => {
     setSelectedCategory(category);
@@ -59,7 +64,11 @@ function App() {
   }
 
   return (
-    <div className="app-background">
+    <div
+      className="app-background"
+      style={{ backgroundImage: `url('./RESOURCES/IMAGES/fondo.jpg')` }}
+      onLoad={handleBackgroundLoad} // Trigger when background image is loaded
+    >
       {/* Top container for the restaurant title */}
       <div className="header">
         <h1 className="title">Restaurante El Sazon</h1>
