@@ -1,38 +1,168 @@
-.App {
+.app-background {
+  background-image: url('./RESOURCES/IMAGES/fondo.jpg'); /* Ensure the correct path to fondo.jpg */
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  height: 100vh;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  overflow-y: auto; /* Enable vertical scrolling */
+  font-family: Arial, sans-serif; /* Add a fallback font */
+}
+
+.app-background::-webkit-scrollbar {
+  width: 10px; /* Width of the scrollbar */
+}
+
+.app-background::-webkit-scrollbar-thumb {
+  background-color: #ff6f21; /* Color of the scrollbar thumb */
+  border-radius: 5px; /* Rounded corners for the scrollbar thumb */
+}
+
+.app-background::-webkit-scrollbar-track {
+  background-color: #f1f1f1; /* Background color of the scrollbar track */
+}
+
+.header {
   text-align: center;
+  padding-top: 20px;
+  padding-bottom: 10px; /* Add spacing below the header */
+  border-bottom: 2px solid #ff6f21; /* Add a border below the header */
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+@font-face {
+  font-family: 'CustomFont';
+  src: url('./RESOURCES/Edmund-Free.otf') format('truetype'); /* Ensure the correct path to the font file */
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.title {
+  font-family: 'CustomFont', serif;
+  color: #ff6f21;
+  font-size: 2.5rem;
+  margin: 0;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.categories-container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  flex-wrap: wrap;
+  margin: 20px 0;
+  gap: 15px; /* Add spacing between category items */
+}
+
+.categories-container > button {
+  background-color: #ff6f21;
   color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-family: 'CustomFont', serif;
+  border-radius: 20px; /* Rounded borders */
+  transition: background-color 0.3s ease; /* Add hover effect */
+  margin-bottom: 10px; /* Add spacing below the button */
 }
 
-.App-link {
-  color: #61dafb;
+.categories-container > button:hover {
+  background-color: #e65c1a; /* Darker shade on hover */
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.category-item {
+  margin: 10px;
+  display: flex;
+  align-items: center; /* Center align checkbox and button */
 }
+
+.category-item button {
+  background-color: #ff6f21;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-family: 'CustomFont', serif;
+  border-radius: 20px; /* Make buttons have rounded borders */
+  transition: background-color 0.3s ease; /* Add hover effect */
+}
+
+.category-item button:hover {
+  background-color: #e65c1a; /* Darker shade on hover */
+}
+
+.category-item input[type="checkbox"] {
+  display: none; /* Hide the checkbox */
+}
+
+.category-item button::before {
+  content: ''; /* Add a custom checkbox inside the button */
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  margin-right: 10px;
+  border: 2px solid white;
+  border-radius: 3px;
+  background-color: transparent;
+  vertical-align: middle;
+}
+
+.category-item input[type="checkbox"]:checked + button::before {
+  background-color: white; /* Fill the checkbox when checked */
+}
+
+.products-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  padding: 30px; /* Add padding inside the container */
+  border-radius: 10px; /* Rounded corners for the container */
+}
+
+.product-item {
+  background-color: #ff6f21; /* Set background color to #ff6f21 */
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 15px;
+  width: 200px;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Add hover effect */
+  display: flex;
+  flex-direction: column; /* Arrange content vertically */
+  align-items: center; /* Center content horizontally */
+  justify-content: space-between; /* Distribute content vertically */
+}
+
+.product-item[data-status="DISABLE"] {
+  background-color: #ff3030; /* Light red for DISABLE status */
+}
+
+.product-item img {
+  width: 100%; /* Make the image take the full width */
+  height: auto; /* Maintain aspect ratio */
+  border-radius: 5px; /* Optional: rounded corners for the image */
+  margin-bottom: 10px; /* Add spacing below the image */
+}
+
+.product-item h2 {
+  font-family: 'CustomFont', serif; /* Use the custom font */
+  font-size: 1.5rem; /* Increase font size */
+  color: white; /* Change text color to white */
+  margin: 10px 0; /* Add spacing above and below the name */
+  text-align: center; /* Center align the text */
+}
+
+.product-item p {
+  font-family: 'CustomFont', serif; /* Use the custom font */
+  font-size: 1.2rem; /* Increase font size */
+  color: white; /* Change text color to white */
+  margin: 5px 0; /* Add spacing above and below the price */
+  text-align: center; /* Center align the text */
+}
+
+.product-item:hover {
+  transform: translateY(-5px); /* Slight lift on hover */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Stronger shadow on hover */
+}
+
+
