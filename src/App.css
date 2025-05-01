@@ -29,7 +29,8 @@
   text-align: center;
   padding-top: 20px;
   padding-bottom: 10px; /* Add spacing below the header */
-  border-bottom: 2px solid #ff6f21; /* Add a border below the header */
+  border-bottom: 2px solid #ffffff; /* Add a border below the header */
+  background-color: #ff6f21;
 }
 
 @font-face {
@@ -39,33 +40,57 @@
 
 .title {
   font-family: 'CustomFont', serif;
-  color: #ff6f21;
+  color: #ffffff;
   font-size: 2.5rem;
   margin: 0;
 }
 
 .categories-container {
   display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
+  justify-content: flex-start; /* Align items to the start */
+  flex-wrap: nowrap; /* Prevent wrapping for conveyor effect */
+  overflow: hidden; /* Hide overflowing buttons */
   margin: 20px 0;
-  gap: 15px; /* Add spacing between category items */
+  position: relative; /* For positioning child elements */
 }
 
-.categories-container > button {
+.categories-track {
+  display: flex;
+  gap: 15px; /* Add spacing between category items */
+  animation: conveyor-track 60s linear infinite; /* Slow down the animation */
+}
+
+.category-button {
+  flex-shrink: 0; /* Prevent buttons from shrinking */
   background-color: #ff6f21;
   color: white;
   border: none;
   padding: 10px 20px;
-  cursor: pointer;
+  cursor: pointer; /* Keep the button clickable */
   font-family: 'CustomFont', serif;
   border-radius: 20px; /* Rounded borders */
   transition: background-color 0.3s ease; /* Add hover effect */
   margin-bottom: 10px; /* Add spacing below the button */
+  font-size: 1rem; /* Ensure consistent font size */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+  height: 50px; /* Match the height of other buttons */
+  display: flex;
+  align-items: center; /* Center text vertically */
+  justify-content: center; /* Center text horizontally */
 }
 
-.categories-container > button:hover {
+.category-button:hover {
   background-color: #e65c1a; /* Darker shade on hover */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Stronger shadow on hover */
+}
+
+@keyframes conveyor-track {
+  0% {
+    transform: translateX(0); /* Start at the initial position */
+  }
+  100% {
+    transform: translateX(-50%); /* Move the track halfway for seamless looping */
+  }
 }
 
 .category-item {

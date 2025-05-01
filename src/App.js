@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { db } from './firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import Carga from './RESOURCES/CARGA/Carga';
@@ -20,6 +20,50 @@ function App() {
   const [categories, setCategories] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]); // New state for filtered products
   const [selectedCategory, setSelectedCategory] = useState(null); // New state for selected category
+
+  const trackRef = useRef(null); // Reference to the categories track
+  const [isDragging, setIsDragging] = useState(false); // Track dragging state
+  const [startX, setStartX] = useState(0); // Store initial X position
+  const [scrollLeft, setScrollLeft] = useState(0); // Store initial scroll position
+
+  const handleMouseDown = (e) => {
+    setIsDragging(true);
+    setStartX(e.pageX - trackRef.current.offsetLeft);
+    setScrollLeft(trackRef.current.scrollLeft);
+    trackRef.current.style.animation = 'none'; // Pause animation while dragging
+  };
+
+  const handleMouseMove = (e) => {
+    if (!isDragging) return;
+    e.preventDefault();
+    const x = e.pageX - trackRef.current.offsetLeft;
+    const walk = (x - startX) * 2; // Adjust scroll speed
+    trackRef.current.scrollLeft = scrollLeft - walk;
+  };
+
+  const handleMouseUpOrLeave = () => {
+    setIsDragging(false);
+    trackRef.current.style.animation = ''; // Resume animation
+  };
+
+  const handleTouchStart = (e) => {
+    setIsDragging(true);
+    setStartX(e.touches[0].pageX - trackRef.current.offsetLeft);
+    setScrollLeft(trackRef.current.scrollLeft);
+    trackRef.current.style.animation = 'none'; // Pause animation while dragging
+  };
+
+  const handleTouchMove = (e) => {
+    if (!isDragging) return;
+    const x = e.touches[0].pageX - trackRef.current.offsetLeft;
+    const walk = (x - startX) * 2; // Adjust scroll speed
+    trackRef.current.scrollLeft = scrollLeft - walk;
+  };
+
+  const handleTouchEnd = () => {
+    setIsDragging(false);
+    trackRef.current.style.animation = ''; // Resume animation
+  };
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -67,19 +111,37 @@ function App() {
 
       {/* Middle container for categories */}
       <div className="categories-container">
-        <button onClick={() => handleCategoryClick(null)}>Ver todas las categorías</button>
-        {categories.map(category => (
-          <div key={category} className="category-item">
-            <label>
-              <input
-                type="checkbox"
-                checked={selectedCategory === category}
-                readOnly
-              />
-              <button onClick={() => handleCategoryClick(category)}>{category}</button>
-            </label>
-          </div>
-        ))}
+        <div className="categories-track" ref={trackRef}>
+          {/* First set of buttons */}
+          <button className="category-button" onClick={() => handleCategoryClick(null)}>Ver todas las categorías</button>
+          {categories.map((category) => (
+            <div key={category} className="category-item">
+              <label>
+                <input
+                  type="checkbox"
+                  checked={selectedCategory === category}
+                  readOnly
+                />
+                <button onClick={() => handleCategoryClick(category)}>{category}</button>
+              </label>
+            </div>
+          ))}
+
+          {/* Second set of buttons for seamless looping */}
+          <button className="category-button" onClick={() => handleCategoryClick(null)}>Ver todas las categorías</button>
+          {categories.map((category) => (
+            <div key={`${category}-duplicate`} className="category-item">
+              <label>
+                <input
+                  type="checkbox"
+                  checked={selectedCategory === category}
+                  readOnly
+                />
+                <button onClick={() => handleCategoryClick(category)}>{category}</button>
+              </label>
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* Bottom container for products */}
