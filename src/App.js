@@ -2,8 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import { db } from './firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import Carga from './RESOURCES/CARGA/Carga';
+import Detalles from './DETALLES/detalles'; // Import the Detalles component
 import './App.css';
-import { FaTh, FaThLarge, FaList } from 'react-icons/fa'; // Import icons
+import { FaTh, FaThLarge, FaList, FaShoppingCart } from 'react-icons/fa'; // Import icons
 
 const formatPrice = (value) => {
   if (value === null || value === undefined || value === '') return '0';
@@ -28,6 +29,7 @@ function App() {
   const [filteredProducts, setFilteredProducts] = useState([]); // New state for filtered products
   const [selectedCategory, setSelectedCategory] = useState(null); // New state for selected category
   const [viewType, setViewType] = useState('cuadriculada'); // State for view type
+  const [selectedProduct, setSelectedProduct] = useState(null); // State for the selected product
 
   const trackRef = useRef(null); // Reference to the categories track
   const [isDragging, setIsDragging] = useState(false); // Track dragging state
@@ -39,20 +41,18 @@ function App() {
     setIsDragging(true);
     setStartX(e.pageX - trackRef.current.offsetLeft);
     setScrollLeft(trackRef.current.scrollLeft);
-    trackRef.current.style.animation = 'none'; // Pause animation while dragging
   };
 
   const handleMouseMove = (e) => {
     if (!isDragging) return;
     e.preventDefault();
     const x = e.pageX - trackRef.current.offsetLeft;
-    const walk = (x - startX) * 2; // Adjust scroll speed
+    const walk = (x - startX) * 1.5; // Adjust scroll sensitivity
     trackRef.current.scrollLeft = scrollLeft - walk;
   };
 
   const handleMouseUpOrLeave = () => {
     setIsDragging(false);
-    trackRef.current.style.animation = ''; // Resume animation
   };
 
   const startScroll = (direction) => {
@@ -80,7 +80,7 @@ function App() {
   const handleTouchMove = (e) => {
     if (!isDragging) return;
     const x = e.touches[0].pageX - trackRef.current.offsetLeft;
-    const walk = (x - startX) * 2; // Adjust scroll speed
+    const walk = (x - startX) * 1.5; // Adjust scroll sensitivity
     trackRef.current.scrollLeft = scrollLeft - walk;
   };
 
@@ -144,6 +144,14 @@ function App() {
     );
   };
 
+  const handleProductClick = (product) => {
+    setSelectedProduct(product); // Set the clicked product as the selected product
+  };
+
+  const closeOverlay = () => {
+    setSelectedProduct(null); // Close the overlay by clearing the selected product
+  };
+
   if (loading) {
     return <Carga />;
   }
@@ -171,20 +179,16 @@ function App() {
 
       {/* Middle container for categories */}
       <div className="categories-container">
-        <button
-          className="arrow-button left"
-          onMouseDown={() => startScroll('left')}
-          onMouseUp={stopScroll}
-          onMouseLeave={stopScroll}
-        >
-          &#8249; {/* Left arrow symbol */}
-        </button>
         <div
           className="categories-track"
           ref={trackRef}
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
+          onMouseDown={handleMouseDown} // Enable real-time dragging on mouse down
+          onMouseMove={handleMouseMove} // Handle real-time dragging movement
+          onMouseUp={handleMouseUpOrLeave} // Stop dragging on mouse up
+          onMouseLeave={handleMouseUpOrLeave} // Stop dragging when leaving the area
+          onTouchStart={handleTouchStart} // Enable real-time dragging on touch start
+          onTouchMove={handleTouchMove} // Handle real-time dragging movement on touch
+          onTouchEnd={handleTouchEnd} // Stop dragging on touch end
         >
           <button className="category-button" onClick={() => handleCategoryClick(null)}>Ver todas las categorías</button>
           {categories.map((category) => (
@@ -200,14 +204,6 @@ function App() {
             </div>
           ))}
         </div>
-        <button
-          className="arrow-button right"
-          onMouseDown={() => startScroll('right')}
-          onMouseUp={stopScroll}
-          onMouseLeave={stopScroll}
-        >
-          &#8250; {/* Right arrow symbol */}
-        </button>
       </div>
 
       {/* Bottom container for products */}
@@ -223,13 +219,14 @@ function App() {
             key={product.id} 
             className="product-item" 
             data-status={product.status} // Add data-status attribute
+            onClick={() => handleProductClick(product)} // Open overlay on product click
           >
             {viewType !== 'cuadriculada' && (
               <img 
                 src={
                   product.image === 'hamburguer' 
                     ? require('./RESOURCES/IMAGES/hamburguer.jpg') 
-                    : require('./RESOURCES/IMAGES/nofounds.jpg')
+                    : require('./RESOURCES/IMAGES/nofound.jpg')
                 } 
                 alt={product.image === 'hamburguer' ? 'Hamburguer' : 'Not Found'} 
                 className="product-image" 
@@ -241,6 +238,20 @@ function App() {
           </div>
         ))}
       </div>
+
+      {/* Use Detalles component for the overlay */}
+      {selectedProduct && (
+        <Detalles 
+          product={selectedProduct} 
+          onClose={closeOverlay} 
+          formatPrice={formatPrice} // Pass formatPrice function to Detalles
+        />
+      )}
+
+      {/* Floating cart button */}
+      <button className="cart-button">
+        <FaShoppingCart size={24} />
+      </button>
     </div>
   );
 }

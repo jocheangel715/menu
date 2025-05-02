@@ -64,46 +64,23 @@
 }
 
 .arrow-button {
-  position: absolute;
-  top: 46%;
-  transform: translateY(-50%);
-  background-color: #ff6f21;
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 50px; /* Increase width */
-  height: 50px; /* Increase height */
-  font-size: 1.5rem; /* Increase icon size */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  z-index: 2; /* Ensure arrows are above the track */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  transition: background-color 0.3s ease;
-}
-
-.arrow-button:hover {
-  background-color: #e65c1a; /* Darker shade on hover */
-}
-
-.arrow-button.left {
-  left: 10px; /* Position the left arrow */
-}
-
-.arrow-button.right {
-  right: 10px; /* Position the right arrow */
+  display: none; /* Remove the left and right arrow buttons */
 }
 
 .categories-track {
   display: flex;
   gap: 15px; /* Add spacing between category items */
   overflow: hidden; /* Hide overflowing buttons */
-  scroll-behavior: smooth; /* Smooth scrolling effect */
-  width: calc(100% - 120px); /* Adjust width to account for arrow button spacing */
+  scroll-behavior: smooth; /* Enable smooth scrolling */
+  cursor: grab; /* Change cursor to indicate draggable area */
+  width: 100%; /* Use full width since arrow buttons are removed */
   margin: 0 auto; /* Center the track */
   animation: none; /* Remove the animation */
   padding: 0 6px; /* Add 6px spacing to the left and right */
+}
+
+.categories-track:active {
+  cursor: grabbing; /* Change cursor when dragging */
 }
 
 .category-button {
@@ -339,7 +316,7 @@
   border: 1px solid #ddd;
   border-radius: 5px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  z-index: 10;
+  z-index: 1000; /* Ensure it stays above all elements */
 }
 
 .view-selector:hover .view-options {
@@ -381,6 +358,89 @@
   font-family: 'CustomFont', serif; /* Use the custom font */
   font-size: 1.8rem; /* Adjust font size */
   margin: 0; /* Remove default margin */
+}
+
+.product-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(255, 255, 255, 0.95); /* White overlay with slight transparency */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000; /* Ensure it appears above all other elements */
+}
+
+.close-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: #ff6f21;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.close-button:hover {
+  background-color: #e65c1a; /* Darker shade on hover */
+}
+
+.overlay-image {
+  width: 370px;
+  height: 370px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.product-overlay h2 {
+  font-family: 'CustomFont', serif;
+  font-size: 2rem;
+  color: #333;
+  margin: 10px 0;
+}
+
+.product-overlay p {
+  font-family: 'CustomFont', serif;
+  font-size: 1.2rem;
+  color: #555;
+  margin: 5px 0;
+  text-align: center;
+}
+
+.cart-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #ff6f21;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  z-index: 1500; /* Ensure it appears above other elements */
+}
+
+.cart-button:hover {
+  background-color: #e65c1a; /* Darker shade on hover */
+  transform: scale(1.1); /* Slightly enlarge on hover */
 }
 
 

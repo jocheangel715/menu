@@ -1,0 +1,38 @@
+import React, { useEffect } from 'react';
+import './detalles.css';
+
+const Detalles = ({ product, onClose, formatPrice }) => {
+  useEffect(() => {
+    const handleBackButton = (event) => {
+      event.preventDefault();
+      onClose(); // Close the overlay when the back button is pressed
+    };
+
+    window.addEventListener('popstate', handleBackButton);
+
+    return () => {
+      window.removeEventListener('popstate', handleBackButton); // Cleanup the event listener
+    };
+  }, [onClose]);
+
+  return (
+    <div className="product-overlay">
+      <button className="close-button" onClick={onClose}>X</button>
+      <img 
+        src={
+          product.image === 'hamburguer' 
+            ? require('../RESOURCES/IMAGES/hamburguer.jpg') 
+            : require('../RESOURCES/IMAGES/nofound.jpg')
+        } 
+        alt={product.image === 'hamburguer' ? 'Hamburguer' : 'Not Found'} 
+        className="overlay-image" 
+      />
+      <h2>{product.name}</h2>
+      <p>{product.ingredients || 'Ingredientes no disponibles'}</p>
+      <p>Precio: {formatPrice(product.price)}</p>
+      <button className="add-to-cart-button">Agregar al carrito</button>
+    </div>
+  );
+};
+
+export default Detalles;

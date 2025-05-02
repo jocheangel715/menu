@@ -1,0 +1,77 @@
+.product-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(255, 255, 255, 0.95); /* White overlay with slight transparency */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000; /* Ensure it appears above all other elements */
+}
+
+.close-button {
+  position: absolute;
+  top: 20px;
+  left: 20px; /* Move to the top-left corner */
+  background-color: #ff6f21;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, background-color 0.3s ease; /* Smooth rotation and color transition */
+}
+
+.close-button:hover {
+  background-color: #e65c1a; /* Darker shade on hover */
+  transform: rotate(360deg); /* Rotate the button on hover */
+}
+
+.overlay-image {
+  width: 400px; /* Larger image size */
+  height: 400px; /* Larger image size */
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.product-overlay h2 {
+  font-family: 'CustomFont', serif;
+  font-size: 2rem;
+  color: #333;
+  margin: 10px 0;
+}
+
+.product-overlay p {
+  font-family: 'CustomFont', serif;
+  font-size: 1.2rem;
+  color: #555;
+  margin: 5px 0;
+  text-align: center;
+}
+
+.add-to-cart-button {
+  background-color: #ff6f21;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.add-to-cart-button:hover {
+  background-color: #e65c1a; /* Darker shade on hover */
+  transform: scale(1.05); /* Slightly enlarge on hover */
+}
