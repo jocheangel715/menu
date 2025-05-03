@@ -20,17 +20,17 @@ const Detalles = ({ product, onClose, formatPrice }) => {
       <button className="close-button" onClick={onClose}>X</button>
       <img 
         src={
-          product.image === 'hamburguer' 
-            ? require('../RESOURCES/IMAGES/hamburguer.jpg') 
-            : require('../RESOURCES/IMAGES/nofound.jpg')
+          product.url && product.url.trim() !== '' 
+            ? product.url 
+            : require('../RESOURCES/IMAGES/nofound.png')
         } 
-        alt={product.image === 'hamburguer' ? 'Hamburguer' : 'Not Found'} 
+        alt={product.name || 'Not Found'} 
         className="overlay-image" 
       />
       <h2>{product.name}</h2>
       <p>{product.ingredients || 'Ingredientes no disponibles'}</p>
       <p>Precio: {formatPrice(product.price)}</p>
-      <button className="add-to-cart-button">Agregar al carrito</button>
+      <button className="add-to-cart-button" style={{ display: 'none' }}>Agregar al carrito</button>
     </div>
   );
 };

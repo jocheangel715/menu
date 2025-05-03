@@ -1,5 +1,7 @@
 .app-background {
-  background-image: url('./RESOURCES/IMAGES/fondo.jpg'); /* Ensure the correct path to fondo.jpg */
+  background-color: rgba(0, 0, 0, 0.979); /* Set background to black */
+  /* Remove background image if it exists */
+  background-image: none;
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -25,7 +27,7 @@
   text-align: center;
   padding-top: 20px;
   padding-bottom: 10px; /* Add spacing below the header */
-  border-bottom: 2px solid #ffffff; /* Add a border below the header */
+  border-bottom: 2px solid #000000; /* Change border color to black */
   background-color: #ff6f21;
   height: 4rem; /* Set a fixed height for the header */
 }
@@ -37,7 +39,7 @@
 
 .title {
   font-family: 'CustomFont', serif;
-  color: #ffffff;
+  color: #000000; /* Ensure text color is black */
   font-size: 2.5rem;
   margin: 0;
 }
@@ -86,7 +88,7 @@
 .category-button {
   flex-shrink: 0; /* Prevent buttons from shrinking */
   background-color: #ff6f21;
-  color: white;
+  color: #000000; /* Change text color to black */
   border: none;
   padding: 10px 20px;
   cursor: pointer; /* Keep the button clickable */
@@ -126,7 +128,7 @@
 .category-item button {
   flex-shrink: 0; /* Prevent buttons from shrinking */
   background-color: #ff6f21;
-  color: white;
+  color: #000000; /* Change text color to black */
   border: none;
   padding: 10px 20px;
   cursor: pointer; /* Keep the button clickable */
@@ -156,14 +158,14 @@
   width: 15px;
   height: 15px;
   margin-right: 10px;
-  border: 2px solid white;
+  border: 2px solid black; /* Change checkbox border to black */
   border-radius: 3px;
   background-color: transparent;
   vertical-align: middle;
 }
 
 .category-item input[type="checkbox"]:checked + button::before {
-  background-color: white; /* Fill the checkbox when checked */
+  background-color: black; /* Fill the checkbox with black when checked */
 }
 
 .products-container {
@@ -172,6 +174,8 @@
   padding: 30px; /* Add padding inside the container */
   border-radius: 10px; /* Rounded corners for the container */
   justify-content: center; /* Center the grid items horizontally */
+  max-width: 80%; /* Align with the .products-header width */
+  margin: 0 auto; /* Center the container */
 }
 
 .products-container[data-view="completa"] {
@@ -179,13 +183,13 @@
 }
 
 .products-container[data-view="cuadriculada"] {
-  grid-template-columns: repeat(2, 1fr); /* Two columns for "cuadriculada" view */
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Adjust columns dynamically */
   column-gap: 5px; /* Reduce gap between columns */
 }
 
 .products-container[data-view="lista"] {
-  grid-template-columns: repeat(2, 1fr); /* Two columns for "lista" view */
-  column-gap: 5px; /* Reduce gap between columns */
+  grid-template-columns: 1fr; /* Single column for list view */
+  gap: 20px; /* Ensure consistent spacing between products */
 }
 
 @media (max-width: 768px) {
@@ -221,7 +225,57 @@
 }
 
 .products-container[data-view="lista"] .product-item {
-  max-width: 300px; /* Same as complete view */
+  display: grid; /* Use grid layout for precise positioning */
+  grid-template-columns: 250px 1fr; /* Two columns: image and details */
+  grid-template-rows: auto auto; /* Two rows: name and price */
+  gap: 10px; /* Add spacing between grid items */
+  align-items: start; /* Align items to the top */
+  max-width: 100%; /* Allow full width for list view */
+  padding: 20px; /* Add padding for better spacing */
+}
+
+.products-container[data-view="lista"] .product-image {
+  grid-column: 1 / 2; /* Place image in the first column */
+  grid-row: 1 / 3; /* Span image across both rows */
+  width: 250px; /* Set fixed width for the image */
+  height: 250px; /* Set fixed height for the image */
+  object-fit: cover; /* Ensure the image fits within the dimensions */
+  border-radius: 10px; /* Add rounded corners */
+}
+
+.products-container[data-view="lista"] .product-details {
+  grid-column: 2 / 3; /* Place details in the second column */
+  display: flex;
+  flex-direction: column; /* Arrange details vertically */
+  justify-content: flex-start; /* Align content to the top */
+  height: 100%; /* Match the height of the image */
+}
+
+.products-container[data-view="lista"] .product-details h2 {
+  align-self: flex-start; /* Align title to the top */
+  font-family: 'CustomFont', serif;
+  font-size: 1.8rem; /* Adjust font size for the title */
+  color: #000000;
+  margin: 0 0 10px 0; /* Add spacing below the title */
+}
+
+.products-container[data-view="lista"] .product-details .ingredients {
+  align-self: flex-start; /* Align ingredients to the left */
+  text-align: left; /* Ensure text alignment is to the left */
+  font-family: 'CustomFont', serif;
+  font-size: 1.2rem; /* Adjust font size for the ingredients */
+  color: #000000;
+  margin: 0 0 30px 0; /* Add spacing below the ingredients */
+  white-space: pre-line; /* Preserve line breaks for ingredients */
+}
+
+.products-container[data-view="lista"] .product-details p {
+  align-self: flex-start; /* Align price to the bottom */
+  font-family: 'CustomFont', serif;
+  font-size: 1.2rem; /* Adjust font size for the price */
+  color: #000000;
+  margin: 30px 0 0 0; /* Add a 3-line gap above the price */
+  text-align: right; /* Align price to the right */
 }
 
 .product-item[data-status="DISABLE"] {
@@ -237,19 +291,27 @@
 }
 
 .product-item h2 {
-  font-family: 'CustomFont', serif; /* Use the custom font */
-  font-size: 1.5rem; /* Increase font size */
-  color: white; /* Change text color to white */
-  margin: 10px 0; /* Add spacing above and below the name */
-  text-align: center; /* Center align the text */
+  font-family: 'CustomFont', serif;
+  font-size: 1.5rem;
+  color: #000000;
+  margin: 10px 0;
+  text-align: center;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal; /* Permitir múltiples líneas */
 }
+
 
 .product-item p {
   font-family: 'CustomFont', serif; /* Use the custom font */
   font-size: 1.2rem; /* Increase font size */
-  color: white; /* Change text color to white */
+  color: #000000; /* Change text color to black */
   margin: 5px 0; /* Add spacing above and below the price */
   text-align: center; /* Center align the text */
+  word-wrap: break-word; /* Break long words to fit within the container */
+  overflow-wrap: break-word; /* Ensure compatibility with all browsers */
+  text-overflow: ellipsis; /* Add ellipsis for overflowed text */
+  white-space: normal; /* Allow text to wrap to the next line */
 }
 
 .product-item:hover {
@@ -269,8 +331,11 @@
 }
 
 .products-container[data-view="lista"] .product-image {
-  width: 4rem; /* Small size for list view */
-  height: 4rem; /* Small size for list view */
+  width: 200px; /* Set fixed width for the image */
+  height: 200px; /* Set fixed height for the image */
+  object-fit: cover; /* Ensure the image fits within the dimensions */
+  border-radius: 10px; /* Add rounded corners */
+  margin-right: 20px; /* Add spacing between the image and details */
 }
 
 .products-container[data-view="cuadriculada"] .product-image {
@@ -296,7 +361,7 @@
 
 .view-button {
   background-color: #ff6f21;
-  color: white;
+  color: rgb(0, 0, 0);
   border: none;
   padding: 10px 15px;
   border-radius: 5px;
@@ -312,7 +377,7 @@
   position: absolute;
   top: 100%;
   left: 0;
-  background-color: white;
+  background-color: #000000; /* Change dropdown background to black */
   border: 1px solid #ddd;
   border-radius: 5px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -324,6 +389,7 @@
 }
 
 .view-options button {
+  color: white; /* Change text color to black */
   background: none;
   border: none;
   padding: 10px 15px;
@@ -337,12 +403,12 @@
 }
 
 .view-options button:hover {
-  background-color: #f1f1f1;
+  background-color: #000000; /* Change hover background to black */
 }
 
 .products-header {
   background-color: #ff6f21; /* Set background to match theme */
-  color: white; /* Set text color to white */
+  color: #000000; /* Ensure text color is black */
   text-align: center;
   margin: 20px auto; /* Center the header and add spacing */
   padding: 10px 20px; /* Add padding for better spacing */
@@ -352,6 +418,7 @@
   position: sticky; /* Make the header sticky */
   top: 10px; /* Leave a 10px space from the top */
   z-index: 100; /* Ensure it stays above other elements */
+  width: 100%; /* Ensure it spans the full width */
 }
 
 .products-header h2 {
@@ -366,7 +433,7 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(255, 255, 255, 0.95); /* White overlay with slight transparency */
+  background-color: #000000; /* Change overlay background to black */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -379,7 +446,7 @@
   top: 20px;
   right: 20px;
   background-color: #ff6f21;
-  color: white;
+  color: rgb(0, 0, 0);
   border: none;
   border-radius: 50%;
   width: 40px;
@@ -407,14 +474,14 @@
 .product-overlay h2 {
   font-family: 'CustomFont', serif;
   font-size: 2rem;
-  color: #333;
+  color: #ffffff; /* Change text color to black */
   margin: 10px 0;
 }
 
 .product-overlay p {
   font-family: 'CustomFont', serif;
   font-size: 1.2rem;
-  color: #555;
+  color: #ffffff; /* Change text color to black */
   margin: 5px 0;
   text-align: center;
 }
@@ -443,4 +510,9 @@
   transform: scale(1.1); /* Slightly enlarge on hover */
 }
 
+.products-container[data-view="lista"] .product-details {
+  display: flex;
+  flex-direction: column; /* Arrange details vertically */
+  justify-content: center; /* Center details vertically */
+}
 

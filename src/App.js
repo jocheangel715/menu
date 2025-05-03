@@ -28,8 +28,9 @@ function App() {
   const [categories, setCategories] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]); // New state for filtered products
   const [selectedCategory, setSelectedCategory] = useState(null); // New state for selected category
-  const [viewType, setViewType] = useState('cuadriculada'); // State for view type
+  const [viewType, setViewType] = useState('completa'); // State for view type
   const [selectedProduct, setSelectedProduct] = useState(null); // State for the selected product
+  const [imagesLoaded, setImagesLoaded] = useState(false); // Track image loading state
 
   const trackRef = useRef(null); // Reference to the categories track
   const [isDragging, setIsDragging] = useState(false); // Track dragging state
@@ -137,6 +138,24 @@ function App() {
     fetchProducts();
   }, []);
 
+  useEffect(() => {
+    if (products.length > 0) {
+      const imagePromises = products.map(product => {
+        if (product.url && product.url.trim() !== '') {
+          return new Promise((resolve) => {
+            const img = new Image();
+            img.src = product.url;
+            img.onload = resolve;
+            img.onerror = resolve; // Resolve even if the image fails to load
+          });
+        }
+        return Promise.resolve();
+      });
+
+      Promise.all(imagePromises).then(() => setImagesLoaded(true));
+    }
+  }, [products]);
+
   const handleCategoryClick = (category) => {
     setSelectedCategory(category);
     setFilteredProducts(
@@ -152,7 +171,7 @@ function App() {
     setSelectedProduct(null); // Close the overlay by clearing the selected product
   };
 
-  if (loading) {
+  if (loading || !imagesLoaded) {
     return <Carga />;
   }
 
@@ -221,20 +240,22 @@ function App() {
             data-status={product.status} // Add data-status attribute
             onClick={() => handleProductClick(product)} // Open overlay on product click
           >
-            {viewType !== 'cuadriculada' && (
-              <img 
-                src={
-                  product.image === 'hamburguer' 
-                    ? require('./RESOURCES/IMAGES/hamburguer.jpg') 
-                    : require('./RESOURCES/IMAGES/nofound.jpg')
-                } 
-                alt={product.image === 'hamburguer' ? 'Hamburguer' : 'Not Found'} 
-                className="product-image" 
-              />
-            )}
-            <h2>{product.name}</h2>
-            {viewType !== 'cuadriculada' && <p>{product.ingredients || 'Ingredientes no disponibles'}</p>}
-            <p>Precio: {formatPrice(product.price)}</p>
+            <img 
+              src={
+                product.url && product.url.trim() !== '' 
+                  ? product.url 
+                  : require('./RESOURCES/IMAGES/nofound.png')
+              } 
+              alt={product.name || 'Not Found'} 
+              className="product-image" 
+            />
+            <div className="product-details">
+              <h2>{product.name}</h2>
+              {viewType === 'lista' && product.ingredients && (
+                <div className="ingredients">{product.ingredients}</div>
+              )}
+              <p>Precio: {formatPrice(product.price)}</p>
+            </div>
           </div>
         ))}
       </div>
@@ -249,7 +270,7 @@ function App() {
       )}
 
       {/* Floating cart button */}
-      <button className="cart-button">
+      <button className="cart-button" style={{ display: 'none' }}>
         <FaShoppingCart size={24} />
       </button>
     </div>
