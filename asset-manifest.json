@@ -1,20 +1,18 @@
 {
   "files": {
-    "main.css": "/menu/static/css/main.c47c0b93.css",
-    "main.js": "/menu/static/js/main.6cfb6760.js",
+    "main.css": "/menu/static/css/main.23c53d61.css",
+    "main.js": "/menu/static/js/main.665be28a.js",
     "static/js/453.6097658f.chunk.js": "/menu/static/js/453.6097658f.chunk.js",
-    "static/media/fondo.jpg": "/menu/static/media/fondo.d365de58dc9160953d31.jpg",
+    "static/media/nofound.png": "/menu/static/media/nofound.85621c8f2457793e7d67.png",
     "static/media/logo512.png": "/menu/static/media/logo512.0bdef6fc0c0b8e608a25.png",
-    "static/media/hamburguer.jpg": "/menu/static/media/hamburguer.0b46592225f471c3f0f2.jpg",
-    "static/media/nofound.jpg": "/menu/static/media/nofound.d89181f926bf0fb94434.jpg",
     "static/media/Edmund-Free.otf": "/menu/static/media/Edmund-Free.39bb0d15f6aa6b3d6c78.otf",
     "index.html": "/menu/index.html",
-    "main.c47c0b93.css.map": "/menu/static/css/main.c47c0b93.css.map",
-    "main.6cfb6760.js.map": "/menu/static/js/main.6cfb6760.js.map",
+    "main.23c53d61.css.map": "/menu/static/css/main.23c53d61.css.map",
+    "main.665be28a.js.map": "/menu/static/js/main.665be28a.js.map",
     "453.6097658f.chunk.js.map": "/menu/static/js/453.6097658f.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.c47c0b93.css",
-    "static/js/main.6cfb6760.js"
+    "static/css/main.23c53d61.css",
+    "static/js/main.665be28a.js"
   ]
 }
