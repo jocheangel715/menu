@@ -30,6 +30,9 @@
   border-bottom: 2px solid #000000; /* Change border color to black */
   background-color: #ff6f21;
   height: 4rem; /* Set a fixed height for the header */
+  display: flex; /* Use flexbox for alignment */
+  align-items: center; /* Center items vertically */
+  justify-content: center; /* Center items horizontally */
 }
 
 @font-face {
@@ -48,11 +51,10 @@
   max-width: 5rem; /* Reduce the size of the logo */
   height: auto; /* Maintain aspect ratio */
   display: block;
-  margin: 10 auto; /* Center the logo horizontally */
-  position: absolute; /* Position the logo independently */
-  left: 50%; /* Center horizontally */
-  top: 80%; /* Lower the logo further */
-  transform: translate(-50%, -50%); /* Adjust for both width and height */
+  margin: 0 auto; /* Center the logo horizontally */
+  position: relative; /* Position relative to the header */
+  top: 50%; /* Center vertically within the header */
+  transform: translateY(-50%); /* Adjust for vertical centering */
 }
 
 .categories-container {
@@ -81,17 +83,7 @@
 }
 
 .categories-track::-webkit-scrollbar {
-  display: block; /* Make scrollbar visible */
-  height: 8px; /* Adjust scrollbar height */
-}
-
-.categories-track::-webkit-scrollbar-thumb {
-  background-color: #ff6f21; /* Match theme color */
-  border-radius: 4px; /* Rounded scrollbar */
-}
-
-.categories-track::-webkit-scrollbar-track {
-  background-color: #f0f0f0; /* Light background for scrollbar track */
+  display: none; /* Hide scrollbar */
 }
 
 .categories-track:active {
@@ -189,20 +181,16 @@
   justify-content: center; /* Center the grid items horizontally */
   max-width: 80%; /* Align with the .products-header width */
   margin: 0 auto; /* Center the container */
+  grid-template-columns: 1fr; /* Always use single column for "completa" view */
 }
 
 .products-container[data-view="completa"] {
   grid-template-columns: 1fr; /* Single column for "completa" view */
 }
 
-.products-container[data-view="cuadriculada"] {
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Adjust columns dynamically */
-  column-gap: 5px; /* Reduce gap between columns */
-}
-
+.products-container[data-view="cuadriculada"],
 .products-container[data-view="lista"] {
-  grid-template-columns: 1fr; /* Single column for list view */
-  gap: 20px; /* Ensure consistent spacing between products */
+  grid-template-columns: 1fr; /* Force single column for all views */
 }
 
 @media (max-width: 768px) {

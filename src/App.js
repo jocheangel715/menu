@@ -4,7 +4,7 @@ import { collection, getDocs } from 'firebase/firestore';
 import Carga from './RESOURCES/CARGA/Carga';
 import Detalles from './DETALLES/detalles'; // Import the Detalles component
 import './App.css';
-import { FaTh, FaThLarge, FaList, FaShoppingCart } from 'react-icons/fa'; // Import icons
+import { FaShoppingCart } from 'react-icons/fa'; // Import icons
 
 const formatPrice = (value) => {
   if (value === null || value === undefined || value === '') return '0';
@@ -16,28 +16,17 @@ const formatPrice = (value) => {
   return `$${numberValue.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 2 })}`;
 };
 
-const viewOptions = [
-  { type: 'cuadriculada', label: 'Cuadriculada', icon: <FaTh /> },
-  { type: 'completa', label: 'Completa', icon: <FaThLarge /> },
-  { type: 'lista', label: 'Lista', icon: <FaList /> },
-];
-
 function App() {
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]); // New state for filtered products
   const [selectedCategory, setSelectedCategory] = useState(null); // New state for selected category
-  const [viewType, setViewType] = useState('completa'); // State for view type
+  const [viewType, setViewType] = useState('completa'); // Default to "completa" view
   const [selectedProduct, setSelectedProduct] = useState(null); // State for the selected product
   const [imagesLoaded, setImagesLoaded] = useState(false); // Track image loading state
 
   const trackRef = useRef(null); // Reference to the categories track
-
-  const handleViewChange = (type) => {
-    setViewType(type);
-    // Additional logic for handling view change can be added here
-  };
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -104,31 +93,13 @@ function App() {
 
   return (
     <div className="app-background">
-      {/* Top container for the restaurant title */}
       <div className="header">
-        <div className="header-content">
-          <div className="view-selector">
-            <button className="view-button">
-              {viewOptions.find(option => option.type === viewType)?.icon} Vista
-            </button>
-            <div className="view-options">
-              {viewOptions.map(option => (
-                <button key={option.type} onClick={() => handleViewChange(option.type)}>
-                  {option.icon} {option.label}
-                </button>
-              ))}
-            </div>
-          </div>
-          <img src={require('./RESOURCES/IMAGES/logo512.png')} alt="Restaurante El Sazon Logo" className="logo" />
-        </div>
+        <img src={require('./RESOURCES/IMAGES/logo512.png')} alt="Restaurante El Sazon Logo" className="logo" />
       </div>
 
       {/* Middle container for categories */}
       <div className="categories-container">
-        <div
-          className="categories-track"
-          ref={trackRef}
-        >
+        <div className="categories-track" ref={trackRef}>
           <button className="category-button" onClick={() => handleCategoryClick(null)}>Ver todas las categorías</button>
           {categories.map((category) => (
             <div key={category} className="category-item">
@@ -149,16 +120,13 @@ function App() {
       <div className="products-header">
         <h2>{selectedCategory ? `${selectedCategory}` : 'Todos los Productos'}</h2>
       </div>
-      <div 
-        className="products-container" 
-        data-view={viewType} // Dynamically set the view type
-      >
+      <div className="products-container" data-view="completa">
         {filteredProducts.map(product => (
           <div 
             key={product.id} 
             className="product-item" 
-            data-status={product.status} // Add data-status attribute
-            onClick={() => handleProductClick(product)} // Open overlay on product click
+            data-status={product.status}
+            onClick={() => handleProductClick(product)}
           >
             <img 
               src={
@@ -171,9 +139,6 @@ function App() {
             />
             <div className="product-details">
               <h2>{product.name}</h2>
-              {viewType === 'lista' && product.ingredients && (
-                <div className="ingredients">{product.ingredients}</div>
-              )}
               <p>Precio: {formatPrice(product.price)}</p>
             </div>
           </div>
@@ -185,7 +150,7 @@ function App() {
         <Detalles 
           product={selectedProduct} 
           onClose={closeOverlay} 
-          formatPrice={formatPrice} // Pass formatPrice function to Detalles
+          formatPrice={formatPrice}
         />
       )}
 
