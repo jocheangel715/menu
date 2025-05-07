@@ -33,83 +33,10 @@ function App() {
   const [imagesLoaded, setImagesLoaded] = useState(false); // Track image loading state
 
   const trackRef = useRef(null); // Reference to the categories track
-  const [isDragging, setIsDragging] = useState(false); // Track dragging state
-  const [startX, setStartX] = useState(0); // Store initial X position
-  const [scrollLeft, setScrollLeft] = useState(0); // Store initial scroll position
-  const scrollIntervalRef = useRef(null); // Reference to store the scroll interval
-
-  const handleMouseDown = (e) => {
-    setIsDragging(true);
-    setStartX(e.pageX - trackRef.current.offsetLeft);
-    setScrollLeft(trackRef.current.scrollLeft);
-  };
-
-  const handleMouseMove = (e) => {
-    if (!isDragging) return;
-    e.preventDefault();
-    const x = e.pageX - trackRef.current.offsetLeft;
-    const walk = (x - startX) * 1.5; // Adjust scroll sensitivity
-    trackRef.current.scrollLeft = scrollLeft - walk;
-  };
-
-  const handleMouseUpOrLeave = () => {
-    setIsDragging(false);
-  };
-
-  const startScroll = (direction) => {
-    const scrollAmount = 20; // Increase scroll speed
-    scrollIntervalRef.current = setInterval(() => {
-      const track = trackRef.current;
-      if (direction === 'left') {
-        track.scrollBy({ left: -scrollAmount });
-      } else if (direction === 'right') {
-        track.scrollBy({ left: scrollAmount });
-      }
-    }, 5); // Reduce interval time for faster scrolling
-  };
-
-  const stopScroll = () => {
-    clearInterval(scrollIntervalRef.current); // Clear the interval
-  };
-
-  const handleTouchStart = (e) => {
-    setIsDragging(true);
-    setStartX(e.touches[0].pageX - trackRef.current.offsetLeft);
-    setScrollLeft(trackRef.current.scrollLeft);
-  };
-
-  const handleTouchMove = (e) => {
-    if (!isDragging) return;
-    const x = e.touches[0].pageX - trackRef.current.offsetLeft;
-    const walk = (x - startX) * 1.5; // Adjust scroll sensitivity
-    trackRef.current.scrollLeft = scrollLeft - walk;
-  };
-
-  const handleTouchEnd = () => {
-    setIsDragging(false);
-  };
 
   const handleViewChange = (type) => {
     setViewType(type);
     // Additional logic for handling view change can be added here
-  };
-
-  const scrollTrack = (direction) => {
-    const scrollAmount = 200; // Adjust scroll amount as needed
-    const track = trackRef.current;
-
-    if (direction === 'left') {
-      track.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
-      if (track.scrollLeft <= 0) {
-        track.scrollLeft = 0; // Prevent scrolling beyond the left limit
-      }
-    } else if (direction === 'right') {
-      const maxScrollLeft = track.scrollWidth - track.clientWidth;
-      track.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-      if (track.scrollLeft >= maxScrollLeft) {
-        track.scrollLeft = maxScrollLeft; // Prevent scrolling beyond the right limit
-      }
-    }
   };
 
   useEffect(() => {
@@ -201,13 +128,6 @@ function App() {
         <div
           className="categories-track"
           ref={trackRef}
-          onMouseDown={handleMouseDown} // Enable real-time dragging on mouse down
-          onMouseMove={handleMouseMove} // Handle real-time dragging movement
-          onMouseUp={handleMouseUpOrLeave} // Stop dragging on mouse up
-          onMouseLeave={handleMouseUpOrLeave} // Stop dragging when leaving the area
-          onTouchStart={handleTouchStart} // Enable real-time dragging on touch start
-          onTouchMove={handleTouchMove} // Handle real-time dragging movement on touch
-          onTouchEnd={handleTouchEnd} // Stop dragging on touch end
         >
           <button className="category-button" onClick={() => handleCategoryClick(null)}>Ver todas las categorías</button>
           {categories.map((category) => (

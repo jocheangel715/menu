@@ -72,13 +72,26 @@
 .categories-track {
   display: flex;
   gap: 15px; /* Add spacing between category items */
-  overflow: hidden; /* Hide overflowing buttons */
+  overflow-x: auto; /* Enable horizontal scrolling */
   scroll-behavior: smooth; /* Enable smooth scrolling */
   cursor: grab; /* Change cursor to indicate draggable area */
-  width: 100%; /* Use full width since arrow buttons are removed */
+  width: 100%; /* Use full width */
   margin: 0 auto; /* Center the track */
-  animation: none; /* Remove the animation */
   padding: 0 6px; /* Add 6px spacing to the left and right */
+}
+
+.categories-track::-webkit-scrollbar {
+  display: block; /* Make scrollbar visible */
+  height: 8px; /* Adjust scrollbar height */
+}
+
+.categories-track::-webkit-scrollbar-thumb {
+  background-color: #ff6f21; /* Match theme color */
+  border-radius: 4px; /* Rounded scrollbar */
+}
+
+.categories-track::-webkit-scrollbar-track {
+  background-color: #f0f0f0; /* Light background for scrollbar track */
 }
 
 .categories-track:active {
