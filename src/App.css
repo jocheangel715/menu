@@ -1,17 +1,33 @@
 .app-background {
   background-color: rgba(0, 0, 0, 0.979); /* Set background to black */
-  /* Remove background image if it exists */
-  background-image: none;
-  background-size: cover;
+  background-image: url('./RESOURCES/IMAGES/image.png'); /* Usa image.png como fondo */
+  background-repeat: repeat; /* Repite la imagen para cubrir todo */
+  background-size: 180px auto; /* Haz la imagen pequeña y repítela */
   background-position: center;
   background-attachment: fixed;
-  height: 100vh;
+  min-height: 100vh; /* Cambia height por min-height para cubrir todo el scroll */
   width: 100vw;
   margin: 0;
   padding: 0;
-  overflow: hidden; /* Hide both horizontal and vertical scrollbars */
+  /* Quita overflow: hidden para permitir scroll normal */
+  /* overflow: hidden; */
   overflow-y: auto; /* Enable vertical scrolling without showing the scrollbar */
   font-family: Arial, sans-serif; /* Add a fallback font */
+  position: relative; /* Necesario para el pseudo-elemento */
+}
+
+.app-background::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.55); /* Ajusta la opacidad aquí */
+  pointer-events: none; /* Permite interacción con el contenido */
+  z-index: 0;
+}
+
+.app-background > * {
+  position: relative;
+  z-index: 1;
 }
 
 .app-background::-webkit-scrollbar {
@@ -33,6 +49,27 @@
   display: flex; /* Use flexbox for alignment */
   align-items: center; /* Center items vertically */
   justify-content: center; /* Center items horizontally */
+  position: relative; /* Necesario para el pseudo-elemento */
+  background-image: url('./RESOURCES/IMAGES/image.png');
+  background-repeat: repeat;
+  background-size: 180px auto;
+  background-position: center;
+  background-attachment: fixed;
+  overflow: hidden;
+}
+
+.header::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: #ff6f2181; /* Rojo translúcido */
+  pointer-events: none;
+  z-index: 0;
+}
+
+.header > * {
+  position: relative;
+  z-index: 1;
 }
 
 @font-face {
@@ -515,5 +552,16 @@
   display: flex;
   flex-direction: column; /* Arrange details vertically */
   justify-content: center; /* Center details vertically */
+}
+
+/* Asegura que body y html no tengan fondo blanco */
+html, body {
+  background: rgba(0, 0, 0, 0.979) url('./RESOURCES/IMAGES/image.png') repeat center center fixed;
+  background-size: 180px auto;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  width: 100vw;
+  overflow-x: hidden;
 }
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { db } from './firebase';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, onSnapshot } from 'firebase/firestore'; // Cambiar getDocs por onSnapshot
 import Carga from './RESOURCES/CARGA/Carga';
 import Detalles from './DETALLES/detalles'; // Import the Detalles component
 import './App.css';
@@ -29,30 +29,36 @@ function App() {
   const trackRef = useRef(null); // Reference to the categories track
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const querySnapshot = await getDocs(collection(db, 'MENU'));
-        const productsData = querySnapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setProducts(productsData);
-        setFilteredProducts(productsData); // Initialize filtered products with all products
+    // Usar snapshot para obtener productos en tiempo real
+    const unsubscribe = onSnapshot(collection(db, 'MENU'), (querySnapshot) => {
+      const productsData = querySnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setProducts(productsData);
 
-        // Extract unique categories
-        const uniqueCategories = [
-          ...new Set(productsData.map(product => product.category)),
-        ];
-        setCategories(uniqueCategories);
-      } catch (error) {
-        console.error('Error fetching products:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
+      // Extraer categorías únicas
+      const uniqueCategories = [
+        ...new Set(productsData.map(product => product.category)),
+      ];
+      setCategories(uniqueCategories);
+      setLoading(false);
+    }, (error) => {
+      console.error('Error fetching products:', error);
+      setLoading(false);
+    });
 
-    fetchProducts();
+    return () => unsubscribe();
   }, []);
+
+  // Nuevo efecto para actualizar los productos filtrados en tiempo real
+  useEffect(() => {
+    setFilteredProducts(
+      selectedCategory
+        ? products.filter(product => product.category === selectedCategory)
+        : products
+    );
+  }, [products, selectedCategory]);
 
   useEffect(() => {
     if (products.length > 0) {
@@ -130,9 +136,11 @@ function App() {
           >
             <img 
               src={
-                product.url && product.url.trim() !== '' 
-                  ? product.url 
-                  : require('./RESOURCES/IMAGES/nofound.png')
+                product.status === 'DISABLE'
+                  ? require('./RESOURCES/IMAGES/DISABLE.png')
+                  : (product.url && product.url.trim() !== '' 
+                      ? product.url 
+                      : require('./RESOURCES/IMAGES/nofound.png'))
               } 
               alt={product.name || 'Not Found'} 
               className="product-image" 
