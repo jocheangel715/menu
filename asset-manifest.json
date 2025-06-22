@@ -1,18 +1,20 @@
 {
   "files": {
-    "main.css": "/menu/static/css/main.14f5d0e6.css",
-    "main.js": "/menu/static/js/main.528526dc.js",
+    "main.css": "/menu/static/css/main.d3c09d27.css",
+    "main.js": "/menu/static/js/main.d16a9fcd.js",
     "static/js/453.6097658f.chunk.js": "/menu/static/js/453.6097658f.chunk.js",
+    "static/media/DISABLE.png": "/menu/static/media/DISABLE.c766a24d024bb1c29656.png",
     "static/media/nofound.png": "/menu/static/media/nofound.e5a77fd49a7bcc36f1ca.png",
+    "static/media/image.png": "/menu/static/media/image.68b1179e47a0ee713eff.png",
     "static/media/logo512.png": "/menu/static/media/logo512.0bdef6fc0c0b8e608a25.png",
     "static/media/Edmund-Free.otf": "/menu/static/media/Edmund-Free.39bb0d15f6aa6b3d6c78.otf",
     "index.html": "/menu/index.html",
-    "main.14f5d0e6.css.map": "/menu/static/css/main.14f5d0e6.css.map",
-    "main.528526dc.js.map": "/menu/static/js/main.528526dc.js.map",
+    "main.d3c09d27.css.map": "/menu/static/css/main.d3c09d27.css.map",
+    "main.d16a9fcd.js.map": "/menu/static/js/main.d16a9fcd.js.map",
     "453.6097658f.chunk.js.map": "/menu/static/js/453.6097658f.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.14f5d0e6.css",
-    "static/js/main.528526dc.js"
+    "static/css/main.d3c09d27.css",
+    "static/js/main.d16a9fcd.js"
   ]
 }
